@@ -3,3 +3,6 @@ __pycache__/*
 .hypothesis/*
 
 Untitled.ipynb
+
+.ipynb_checkpoints/
+
