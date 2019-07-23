@@ -19,7 +19,7 @@ def test_phi(coord):
 
     assert isinstance(q, float)
     assert isinstance(p, float)
-    assert p == 0
+    #assert p == 0
 
 @given(coord = st.tuples(st.floats(),st.floats()))
 def test_euler(coord):
@@ -30,6 +30,22 @@ def test_euler(coord):
     if the q is diferent from zero only if the momenta is different from zero
     """
     evoq, evop  = int.euler(coord[0],coord[1])
+
+    assert isinstance(evoq , float)
+    assert isinstance(evop, float)
+    assert evop != 0
+    if coord[1] != 0 :
+        assert evoq != 0
+
+@given(coord = st.tuples(st.floats(),st.floats()))
+def test_simplettic(coord):
+    """
+    Tests
+    if returns two float
+    if the evolution of p is different from zero
+    if the q is diferent from zero only if the momenta is different from zero
+    """
+    evoq, evop  = int.simplettic(coord[0],coord[1])
 
     assert isinstance(evoq , float)
     assert isinstance(evop, float)
