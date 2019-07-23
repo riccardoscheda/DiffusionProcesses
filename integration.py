@@ -3,7 +3,7 @@
 
 import numpy as np
 
-def phi(q,p,omega = 4):
+def phi(q,p,omega = 2):
     """
     The vectorial field which generates the evolution in the pase space
     ---------------------------------
