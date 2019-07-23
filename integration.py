@@ -6,8 +6,8 @@ import numpy as np
 def phi(q,p,omega = 2):
     """
     The vectorial field which generates the evolution in the pase space
-    ---------------------------------
     Parameters:
+    ---------------------------------
     q : the generalized coordinate, float
     p : the generalized momenta, float
     omega : frequency, float
@@ -20,8 +20,8 @@ def phi(q,p,omega = 2):
 def euler(q,p,dt = 0.1,eps= 0.1,beta = 0.1):
     """
     Euler method to obtain the evolution of the system
-    ------------------------------------------
     Parameters:
+    ------------------------------------------
     q : the generalized coordinate, float
     dt : the evolution time step, float
     eps : constant which scale the intensity of the white noise csi
@@ -33,16 +33,16 @@ def euler(q,p,dt = 0.1,eps= 0.1,beta = 0.1):
     # white noise
     csi = np.random.normal(0, 1)
     #evolution of the coordinates q and p
-    evoq = q + phi(q,p)[0]*dt
+    evoq = q + eps*np.sqrt(dt)*csi #+phi(q,p)[0]*dt
     evop = -beta*p + phi(q,p)[1]*dt + eps*np.sqrt(dt)*csi
     return evoq, evop
 
 
-def simplettic(q,p,dt = 0.1,eps= 0.1,beta = 0.1):
+def simplettic(q,p,t,dt,eps= 0.1,beta = 0.1):
     """
     Simplettic integration method to obtain the evolution of the system
-    ------------------------------------------
     Parameters:
+    ------------------------------------------
     q : the generalized coordinate, float
     dt : the evolution time step, float
     eps : constant which scale the intensity of the white noise csi
@@ -52,7 +52,7 @@ def simplettic(q,p,dt = 0.1,eps= 0.1,beta = 0.1):
 
     """
     # white noise
-    csi = np.random.normal(0, 1)
+    csi = np.random.normal(0, np.sqrt(t))
     #evolution of the coordinates q and p
     evoq = q + phi(q,p + dt*phi(q, p)[1])[0]*dt
     evop = -beta*p + phi(q,p)[1]*dt + eps*np.sqrt(dt)*csi
