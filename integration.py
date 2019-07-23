@@ -1,3 +1,6 @@
+########## file for the functions for the integration of the system ###########
+
+
 import numpy as np
 
 def phi(q,p,omega = 0.1):
