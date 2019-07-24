@@ -7,6 +7,8 @@ import integration as int
 
 from hypothesis import strategies as st
 from hypothesis import given
+import numpy as np
+
 
 @given(coord = st.tuples(st.floats(),st.floats()))
 def test_phi(coord):
@@ -21,7 +23,7 @@ def test_phi(coord):
     assert isinstance(p, float)
     #assert p == 0
 
-@given(coord = st.tuples(st.floats(),st.floats()))
+@given(coord = st.tuples(st.floats(),st.floats(),st.floats(),st.floats(),st.floats()))
 def test_euler(coord):
     """
     Tests
@@ -29,15 +31,12 @@ def test_euler(coord):
     if the evolution of p is different from zero
     if the q is diferent from zero only if the momenta is different from zero
     """
-    evoq, evop  = int.euler(coord[0],coord[1])
+    evoq, evop  = int.euler(coord[0],coord[1],abs(coord[2]),coord[3],coord[4])
 
     assert isinstance(evoq , float)
     assert isinstance(evop, float)
-    assert evop != 0
-    if coord[1] != 0 :
-        assert evoq != 0
 
-@given(coord = st.tuples(st.floats(),st.floats(),st.floats(),st.floats()))
+@given(coord = st.tuples(st.floats(),st.floats(),st.floats(),st.floats(),st.floats()))
 def test_simplettic(coord):
     """
     Tests
@@ -45,10 +44,7 @@ def test_simplettic(coord):
     if the evolution of p is different from zero
     if the q is diferent from zero only if the momenta is different from zero
     """
-    evoq, evop  = int.simplettic(coord[0],coord[1],abs(coord[2]),coord[3])
+    evoq, evop  = int.simplettic(coord[0],coord[1],abs(coord[2]),coord[3],coord[4])
 
     assert isinstance(evoq , float)
     assert isinstance(evop, float)
-    #assert evop != 0
-    #if coord[1] != 0 :
-    #    assert evoq != 0
