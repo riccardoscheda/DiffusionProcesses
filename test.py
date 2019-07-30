@@ -7,7 +7,7 @@ import integration as int
 
 from hypothesis import strategies as st
 from hypothesis import given
-import numpy as np
+#import numpy as np
 
 
 @given(coord = st.tuples(st.floats(),st.floats()))
