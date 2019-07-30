@@ -48,6 +48,7 @@ def simplettic(q,p,dt,eps,gamma):
 
 #####################################################################
 #####################################################################
+
 def euler(q,p,dt ,eps,gamma):
     """
     Euler method to obtain the evolution of the system
