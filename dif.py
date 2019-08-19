@@ -1,3 +1,4 @@
+
 ########Main file for the evolution of the system########
 
 
@@ -9,21 +10,26 @@ import scipy.stats as stats
 import integration as int
 
 ############PARAMETERS###################
-Kb = 1
-T = 200
-m = 1
+Kb = 1.380648e-23
+T = 100
+m = 1e-22
+a = np.sqrt(Kb*T/m)
 gamma = 0.8
-eps = np.sqrt(2*m*Kb*T*abs(gamma))
-maxwell = stats.maxwell
-data = maxwell.rvs(loc=0, scale=2, size=10000)
+#eps = np.sqrt(2*Kb*T*m*abs(gamma))
+eps = a**2
 
-params = maxwell.fit(data, floc=0)
+maxwell = stats.maxwell
+data = maxwell.rvs(loc=0, scale=1, size=10000)
+
+#params = maxwell.fit(data, floc=0)
+params = (0, a)
+
 ########################################
 
 #dimensions of the space
 d = 2
 #number of realizations
-N = 10000
+N = 5000
 #number of iterations
 it = 500
 #time step
@@ -33,8 +39,8 @@ qx, px = np.empty((it,N)), np.empty((it,N))
 qy, py = np.empty((it,N)), np.empty((it,N))
 vel = []
 # initial conditions
-qx[0], px[0] = 2, 2
-qy[0], py[0] = 2, 2
+qx[0], px[0] = 0.1, 0.1
+qy[0], py[0] = 0.1, 0.1
 
 fig = plt.figure(dpi = 200)
 ax1 = fig.add_subplot(3,1,1)
@@ -60,8 +66,8 @@ for t in range(it-1):
     ax1.clear()
     ax1.set_xlim(0,50)
     ax1.set_ylim(0,1)
-
-    ax1.plot(hist[1][:-1],hist[0])
+    norm_hist = np.array(hist[0])/np.sum(hist[0])
+    ax1.plot(hist[1][:-1],norm_hist)
 
     ax2.clear()
 
@@ -71,7 +77,8 @@ for t in range(it-1):
 ####fitting#####
     x = np.linspace(0, 25, 100)
     ax1.plot(x, maxwell.pdf(x, *params), lw=1)
-    plt.pause(0.1)
+    #print(sum(norm_hist))
+    plt.pause(0.05)
     plt.show()
 
 #while True:
