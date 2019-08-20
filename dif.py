@@ -63,9 +63,11 @@ for t in range(it-1):
 
     vel = np.sqrt(px[t]**2 + py[t]**2)
     hist = np.histogram(vel,density = True,bins = 25)
+
+    entropy = int.entropy(hist)
     ax1.clear()
     #ax1.set_xlim(0,40)
-    ax1.set_ylim(0,0.5)
+    #ax1.set_ylim(0,0.5)
 
     ax1.plot(hist[1][:-1],hist[0])
 

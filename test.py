@@ -7,7 +7,8 @@ import integration as int
 
 from hypothesis import strategies as st
 from hypothesis import given
-#import numpy as np
+from hypothesis.extra import numpy as enp
+import numpy as np
 
 
 @given(coord = st.tuples(st.floats(),st.floats()))
@@ -48,3 +49,9 @@ def test_simplettic(coord):
 
     assert isinstance(evoq , float)
     assert isinstance(evop, float)
+
+
+@given(rho = enp.arrays(float,(1,10)))
+def test_entropy(rho):
+    assert isinstance(rho, np.ndarray)
+    assert isinstance(int.entropy(rho), float)

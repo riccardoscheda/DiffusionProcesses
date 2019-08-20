@@ -21,7 +21,7 @@ def phi(q,p,omega = 0.5):
     Return the derivative of the potential with respect to q.
     """
     #mass of the particle
-    m = 1.2e-21
+    m = 1.2e-20
     #return p, - omega**2*q
     return p/m, 0.
 
@@ -47,6 +47,17 @@ def simplettic(q,p,dt,eps,gamma):
     evoq = q + phi(q,p + dt*phi(q, p)[1])[0]*dt
     evop = p -gamma*p - phi(q,p)[1]*dt + eps*np.sqrt(dt)*csi
     return evoq, evop
+
+def entropy(rho):
+    """
+    Computes the entropy of the system.
+    Parameters:
+    ---------------------------------------
+    rho: the probability distribution of the system
+
+    Returns the entropy as a float
+    """
+    return np.sum(np.array(rho)*np.log(rho))
 
 
 #####################################################################
