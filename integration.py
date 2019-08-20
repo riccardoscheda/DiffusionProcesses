@@ -57,7 +57,7 @@ def entropy(rho):
 
     Returns the entropy as a float
     """
-    return np.sum(np.array(rho)*np.log(rho))
+    return -np.sum(np.array(rho[1:])*np.log(np.array(rho[1:])))
 
 
 #####################################################################

@@ -31,7 +31,7 @@ d = 2
 #number of realizations
 N = 5000
 #number of iterations
-it = 50
+it = 200
 #time step
 dt = .1
 #arrays for the coordinates which will contain the evolution of the system
@@ -49,6 +49,7 @@ ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 ax2 = fig.add_axes([0.6, 0.6, 0.30, 0.30])
 
 #def animate(t):
+entropy = []
 for t in range(it-1):
     plt.ion()
     # ax2.clear()
@@ -64,7 +65,8 @@ for t in range(it-1):
     vel = np.sqrt(px[t]**2 + py[t]**2)
     hist = np.histogram(vel,density = True,bins = 25)
 
-    entropy = int.entropy(hist)
+    entropy.append(int.entropy(hist[0]))
+    ax2.plot(entropy[:t+1])
     ax1.clear()
     #ax1.set_xlim(0,40)
     #ax1.set_ylim(0,0.5)
