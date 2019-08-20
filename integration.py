@@ -20,8 +20,10 @@ def phi(q,p,omega = 0.5):
 
     Return the derivative of the potential with respect to q.
     """
+    #mass of the particle
+    m = 1.2e-21
     #return p, - omega**2*q
-    return p, 0.
+    return p/m, 0.
 
 
 
@@ -40,11 +42,10 @@ def simplettic(q,p,dt,eps,gamma):
     """
     # white noise
     csi = np.random.normal(0, 1)
-    #mass of the particle
-    m = 1.2e-22
+
     #evolution of the coordinates q and p
     evoq = q + phi(q,p + dt*phi(q, p)[1])[0]*dt
-    evop = -gamma*p + phi(q,p)[1]*dt + eps*dt*csi
+    evop = p -gamma*p - phi(q,p)[1]*dt + eps*np.sqrt(dt)*csi
     return evoq, evop
 
 
