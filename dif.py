@@ -13,7 +13,7 @@ import integration as int
 Kb = 1.380648e-23
 T = 500
 m = 1e-21
-gamma = 0.5
+gamma = 0.9
 a = np.sqrt(2*Kb*T/m*gamma)
 #eps = np.sqrt(2*Kb*T*m*abs(gamma))
 eps = a**2
@@ -37,7 +37,7 @@ dt = .1
 #arrays for the coordinates which will contain the evolution of the system
 qx, px = np.empty((it,N)), np.empty((it,N))
 qy, py = np.empty((it,N)), np.empty((it,N))
-vel = []
+
 # initial conditions
 qx[0], px[0] = 3, 100
 qy[0], py[0] = 3, 100
@@ -47,6 +47,7 @@ ax1 = fig.add_subplot(3,1,1)
 ax2 = fig.add_subplot(3,1,2)
 ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8])
 ax2 = fig.add_axes([0.6, 0.6, 0.30, 0.30])
+
 
 #def animate(t):
 entropy = []
@@ -62,17 +63,21 @@ for t in range(it-1):
         qx[t+1][i], px[t+1][i] = int.simplettic(qx[t][i], px[t][i],dt,eps  ,gamma)
         qy[t+1][i], py[t+1][i] = int.simplettic(qy[t][i], py[t][i],dt,eps  ,gamma)
 
+    pos = np.sqrt(qx[t])
     vel = np.sqrt(px[t]**2 + py[t]**2)
     hist = np.histogram(vel,density = True,bins = 25)
-
-    entropy.append(int.entropy(hist[0]))
-    ax2.plot(entropy[:t+1])
+    poshist = np.histogram(pos,density = True,bins = 25)
+    entropy.append(int.entropy(poshist[0]))
+    #ax2.plot(entropy[:t+1])
+    #print(entropy[-1])
     ax1.clear()
-    #ax1.set_xlim(0,40)
-    #ax1.set_ylim(0,0.5)
-
     ax1.plot(hist[1][:-1],hist[0])
 
+
+    q = np.stack((qx[t],qy[t]))
+    p = np.stack((px[t],py[t]))
+    phasespace = np.stack((q,p))
+    histo = np.histogramdd(phasespace)
 ####fitting#####
     x = np.linspace(0, 25, 100)
     ax1.plot(x, maxwell.pdf(x, *params), lw=1)

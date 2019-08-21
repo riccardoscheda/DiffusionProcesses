@@ -21,9 +21,9 @@ def phi(q,p,omega = 0.5):
     Return the derivative of the potential with respect to q.
     """
     #mass of the particle
-    m = 1.2e-20
+    m = 1.
     #return p, - omega**2*q
-    return p/m, 0.
+    return p/m, - omega**2*q
 
 
 
@@ -57,7 +57,7 @@ def entropy(rho):
 
     Returns the entropy as a float
     """
-    return -np.sum(np.array(rho[1:])*np.log(np.array(rho[1:])))
+    return -np.sum(np.array(rho)*np.log(np.array(rho)))
 
 
 #####################################################################
