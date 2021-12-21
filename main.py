@@ -5,10 +5,13 @@ from matplotlib.animation import FuncAnimation
 
 import matplotlib.animation as animation # animation plot
 import pandas as pd
-
+import networkx as nx
+from matplotlib.animation import FuncAnimation, PillowWriter
 import integration as inte
 
-
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rcParams.update({'font.size': 10})
 ############PARAMETERS######################################
 gamma = 1.
 eps = 0.6
@@ -40,7 +43,7 @@ var = varx + varp
 ########################################################
 fig, ax = plt.subplots(2,2)
 
-particle, = ax[0,0].step([],[], label = "rho_p")
+particle, = ax[0,0].step([],[], label = r'$\rho_p$')
 trajectory, = ax[0,0].step([],[], label = "fit")
 maxwelldist, = ax[1,0].step([],[],label = 'distribution')
 maxwellfit, = ax[1,0].plot([],[],label = "fit")
@@ -48,7 +51,7 @@ ax[0,0].legend()
 ax[1,0].legend()
 phasespace, = ax[0,1].step([],[])
 entr, = ax[1,1].plot([],[], label = "S")
-shan, = ax[1,1].plot([],[], linestyle = "--", label = "S_infty")
+shan, = ax[1,1].plot([],[], linestyle = "--", label = r"$S_{\infty}$")
 ax[1,1].legend()
 
 
@@ -63,27 +66,27 @@ def init():
 
   ax[0,0].set_xlim(-2,2)
   ax[0,0].set_ylim(0,0.05)
-  ax[0,0].set_title("Distribution of momenta")
-  ax[0,0].set_xlabel("p")
-  ax[0,0].set_ylabel("rho_p")
+  ax[0,0].set_title(r"$p$")
+  #ax[0,0].set_xlabel("p",loc="top")
+  ax[0,0].set_ylabel(r'$\rho_p$')
 
   ax[0,1].set_xlim(-5,5)
   ax[0,1].set_ylim(0,0.1)
-  ax[0,1].set_xlabel("x")
-  ax[0,1].set_ylabel("rho_x")
-  ax[0,1].set_title("Distribution of positions")
+  #ax[0,1].set_xlabel("x",loc="top")
+  ax[0,1].set_ylabel(r'$\rho_x$')
+  ax[0,1].set_title(r"$x$")
 
   ax[1,0].set_xlim(-0.1, 5)
   ax[1,0].set_ylim(-0.001, 0.1)
-  ax[1,0].set_xlabel("v")
-  ax[1,0].set_ylabel("rho(v)")
-  ax[1,0].set_title("velocity Distribution")
+  ax[1,0].set_xlabel(r"$v$")
+  ax[1,0].set_ylabel(r'$\rho(v)$')
+  #ax[1,0].set_title("velocity Distribution")
 
   ax[1,1].set_xlim(0, 300)
   ax[1,1].set_ylim(-5, 5)
-  ax[1,1].set_xlabel("time")
-  ax[1,1].set_ylabel("entropy")
-  ax[1,1].set_title("Entropy")
+  ax[1,1].set_xlabel(r'$time$')
+  ax[1,1].set_ylabel(r'entropy')
+  #ax[1,1].set_title(r'Entropy')
 
   return particle,
 
@@ -147,9 +150,9 @@ def evo(frames):
     return particle, trajectory, phasespace, maxwelldist, maxwellfit, entr, shan
 
 
-ani = FuncAnimation(fig, evo, frames = np.arange(0,100), interval = 10,init_func = init, blit = True)
-plt.tight_layout()
-plt.show()
+ani = FuncAnimation(fig, evo, frames = np.arange(0,100), interval = 50,init_func = init, blit = True)
+plt.tight_layout(rect=[0, 0.02, 1, 0.95])
+#plt.show()
 
 # if you want to save a gif
-#ani.save('Doublewell.gif', dpi=140, writer='imagemagick')
+ani.save('Doublewell.gif', dpi=200, writer='pillow')
